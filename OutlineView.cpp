@@ -21,7 +21,7 @@ OutlineView::OutlineView(BRect frame)
 	fSlider(NULL),fDragger(NULL)
 {
 	fReplicated = false;
-
+	prevValue = 0;
 	frame.left = frame.right - kDraggerSize;
 	frame.top = frame.bottom - kDraggerSize;
 
@@ -30,7 +30,7 @@ OutlineView::OutlineView(BRect frame)
 	fMx = new BMessage(9731);
 	fSlider = new BSlider(r, "brigth_slider","Brightness", fMx,1,10);
 	fSlider->SetKeyIncrementValue(1);
-	fScreen = new BScreen();
+	//fScreen = new BScreen();
 	
 	//BDragger *dragger = new BDragger(frame, this, B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
 	//AddChild(dragger);
@@ -38,7 +38,8 @@ OutlineView::OutlineView(BRect frame)
 	AddChild(fDragger);
 	AddChild(fSlider);
 	float fValue;
-	status_t status = fScreen->GetBrightness(&fValue);
+	BScreen fScreen;
+	status_t status = fScreen.GetBrightness(&fValue);
 	
 	if (status == B_OK)
 		{
@@ -63,10 +64,14 @@ OutlineView::OutlineView(BRect frame)
 void
 OutlineView::Pulse(){
 	//fScreen = new BScreen();
+	BScreen fScreen;
 	int32 value = fSlider->Value();
+	if (prevValue!=value){
 	float valore_float = static_cast<float>(value) / 10.0f;
 	valore_float = std::max(0.1f, std::min(valore_float, 1.0f));
-	status_t status = fScreen->SetBrightness(valore_float);
+	status_t status = fScreen.SetBrightness(valore_float);
+	prevValue=value;
+	}
 	if (!IsHidden()) {
 			Draw(Bounds());
 		}
@@ -81,13 +86,15 @@ OutlineView::OutlineView(BMessage *archive)
 	fReplicated = true;
 
 	SetViewColor(B_TRANSPARENT_COLOR);
-	fScreen = new BScreen();
+	//fScreen = new BScreen();
 	fSlider = dynamic_cast<BSlider*>(FindView("brigth_slider"));
+	prevValue = 10;
 }
 
 OutlineView::~OutlineView()
 {
 	delete fSlider;
+	delete fDragger;
 }
 
 
@@ -103,7 +110,7 @@ OutlineView::Archive(BMessage *archive, bool deep) const
 	if (status == B_OK)
 		status = archive->AddString("add_on", kAppSignature);
 	if (status == B_OK)
-		status = archive->AddString("class", kAppName);
+		status = archive->AddString("class", "OutlineView");
 	return status;
 }
 

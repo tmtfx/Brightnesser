@@ -28,13 +28,14 @@ public:
 	virtual status_t 	Archive(BMessage *data, bool deep = true) const;
 //	void				OutlineAboutRequested();
 	BSlider		*fSlider;
-	BScreen		*fScreen;
+	//BScreen		*fScreen;
 	
 
 private:
 	bool				fReplicated;
 	BDragger*		fDragger;
 	BMessage	*fMx;
+	int32		prevValue;
 //	int		conte;
 };
 
