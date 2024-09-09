@@ -5,7 +5,7 @@
 ## architecture of Haiku.
 
 # The name of the binary.
-NAME = HaikuFortune
+NAME = Brightnesser
 TARGET_DIR = .
 
 # The type of binary, must be one of:
@@ -16,7 +16,7 @@ TARGET_DIR = .
 TYPE = APP
 
 # 	If you plan to use localization, specify the application's MIME signature.
-APP_MIME_SIG = 
+APP_MIME_SIG = "application/x-vnd.Brightnesser"
 
 #	The following lines tell Pe and Eddie where the SRCS, RDEFS, and RSRCS are
 #	so that Pe and Eddie can fill them in for you.
@@ -29,28 +29,20 @@ APP_MIME_SIG =
 #	means this Makefile will not work correctly if two source files with the
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
-SRCS = \
-	 App.cpp  \
-	 FortuneFunctions.cpp  \
-	 MainWindow.cpp  \
-	 OutlineView.cpp  \
-
+SRCS =  App.cpp \
+ MainWindow.cpp \
+ OutlineView.cpp
 
 #	Specify the resource definition files to use. Full or relative paths can be
 #	used.
-RDEFS = \
-
+RDEFS = 
 
 #	Specify the resource files to use. Full or relative paths can be used.
 #	Both RDEFS and RSRCS can be utilized in the same Makefile.
-RSRCS = \
-	 HaikuFortune.rsrc  \
-
+RSRCS =  Brightnesser.rsrc
 
 # End Pe/Eddie support.
 # @<-src@ 
-#%}
-
 #%}
 
 #	Specify libraries to link against.
@@ -65,7 +57,7 @@ RSRCS = \
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS =  be
+LIBS =  /boot/system/develop/lib/libbe.so
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative
@@ -84,11 +76,12 @@ SYSTEM_INCLUDE_PATHS =  /boot/system/develop/headers/be \
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.
-LOCAL_INCLUDE_PATHS =  .
+LOCAL_INCLUDE_PATHS =  . \
+ boot/home/Apps/BrightnessReplicant
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O2), or leave blank (for the default optimization level).
-OPTIMIZE := NONE
+OPTIMIZE := FULL
 
 # 	Specify the codes for languages you are going to support in this
 # 	application. The default "en" one must be provided too. "make catkeys"
